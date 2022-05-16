@@ -11,6 +11,9 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -163,22 +166,40 @@ public class ReadTOExcel {
         }
     }
 
-    //여기 아직수정 덜 함
     public static void searchForData() throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT * from hhsamples.inputreserve");
         ArrayList<ReserveDTO> list = new ArrayList<ReserveDTO>();
 
+//        workbook에 쓰기
+        Workbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("20220516");
+        int row = rs.getRow();
+        Cell cell = null;
+        System.out.println("총 행 수 : "+row);
+
         while (rs.next()) {
             ReserveDTO dtos = new ReserveDTO();
             dtos.setDate_key(rs.getString("date_key"));
+            cell.setCellValue(rs.getString("date_key"));
             dtos.setRst_code(rs.getString("rst_code"));
+            cell.setCellValue(rs.getString("rst_code"));
             dtos.setRoom_seq(rs.getInt("room_seq"));
+            cell.setCellValue(rs.getString("room_seq"));
             dtos.setSeason_level(rs.getInt("season_level"));
+            cell.setCellValue(rs.getString("season_level"));
             dtos.setRoom_fee_dc(rs.getInt("room_fee_dc"));
+            cell.setCellValue(rs.getString("room_fee_dc"));
             dtos.setRoom_fee_fix(rs.getInt("room_fee_fix"));
+            cell.setCellValue(rs.getString("room_fee_fix"));
             dtos.setTemp_flag(rs.getString("temp_flag"));
+            cell.setCellValue(rs.getString("temp_flag"));
             list.add(dtos);
+
+
+
         }
+
+
         list.forEach(System.out::println);
     }
 }
