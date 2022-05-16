@@ -128,7 +128,8 @@ public class ReadTOExcel {
                     "(date_key VARCHAR(200), rst_code VARCHAR(200), " +
                     "room_seq INTEGER, " +
                     "season_level INTEGER, room_fee_dc INTEGER, room_fee_fix INTEGER," +
-                    "temp_flag VARCHAR(100)" +
+                    "temp_flag VARCHAR(100)," +
+                    "input_date DATETIME" +
                     ");");
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -137,7 +138,16 @@ public class ReadTOExcel {
     }
 
     public static void runQuery(ReserveDTO excelDTO) throws IOException, SQLException {
-        String sql = "INSERT INTO hhsamples.inputreserve(date_key, rst_code, room_seq, season_level, room_fee_dc, room_fee_fix,temp_flag) VALUES (?, ?, ?, ?, ?, ?, ?);";
+//        String sql = "INSERT INTO hhsamples.inputreserve(date_key, rst_code, room_seq, season_level, room_fee_dc, room_fee_fix,temp_flag) " +
+//                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO hhsamples.inputreserve\n" +
+                "(date_key, rst_code, room_seq, season_level, \n" +
+                "room_fee_dc, room_fee_fix,temp_flag, input_date)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, now())\n" +
+                "ON duplicate key update\n" +
+                "rst_code = "+ excelDTO.getRst_code() + ",\n" +
+                "season_level = "+ excelDTO.getSeason_level() + "\n" +
+                ";";
         pstmt = connection.prepareStatement(sql);
         pstmt.setString(1, excelDTO.getDate_key());
         pstmt.setString(2, excelDTO.getRst_code());
