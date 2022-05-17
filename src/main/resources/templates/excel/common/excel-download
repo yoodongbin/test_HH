@@ -6,11 +6,17 @@
     <title>Title</title>
 </head>
 <body>
-<div>
-    <h1>Excel Download</h1>
-    <form action="/excel/download" method="get">
-        <button type="submit">Excel</button>
-    </form>
-</div>
+    <button class="btn btn-primary" onclick="download()">download</button>
 </body>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        function download(){
+            const form = document.getElementById("download");
+
+            form.setAttribute("method", "get")
+            form.setAttribute("action", "excel-download")
+            form.submit();
+        }
+        </script>
+</th:block>
 </html>

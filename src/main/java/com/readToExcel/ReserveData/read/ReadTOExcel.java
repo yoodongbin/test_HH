@@ -193,6 +193,7 @@ public class ReadTOExcel {
             dtos.setTemp_flag(rs.getString("input_date"));
             list.add(dtos);
 
+            //엑셀파일 산출
             xRow = sheet.createRow(rowNum);
             xCell = xRow.createCell(0);
             xCell.setCellValue(rs.getString("date_key"));
