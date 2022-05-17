@@ -18,5 +18,6 @@ public class ReserveDTO {
     private String temp_flag;
     private Integer res_seq;
     private String app_no;
+    private String input_date;
 
 }
